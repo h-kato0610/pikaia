@@ -23,7 +23,7 @@ proc isLetter(ch: byte): bool
 proc isSpace(ch: char): bool
 proc newLexer*(input: string): Lexer
 proc newToken(tokenType: TokenType, ch: byte): Token
-proc nextToken(lex: Lexer): Token
+proc nextToken*(lex: Lexer): Token
 proc readChar(lex: Lexer)
 proc readIdentifier(lex: Lexer): string
 proc readNumber(lex: Lexer): string
@@ -52,7 +52,7 @@ proc newToken(tokenType: TokenType, ch: byte): Token =
     let str = fmt"{$ch.byte.char}"
     return Token(Type: tokenType, Literal: str)
 
-proc nextToken(lex: Lexer): Token =
+proc nextToken*(lex: Lexer): Token =
     var getReadToken: Token
 
     lex.skipWhiteSpace()
