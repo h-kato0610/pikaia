@@ -1,5 +1,4 @@
 import unittest
-from strformat import fmt
 
 import ../src/lexer/lexer
 import ../src/lexer/token
