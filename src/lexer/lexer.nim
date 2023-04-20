@@ -18,8 +18,8 @@ type Lexer* = ref object
     ch*: byte # 現在検査中の文字
 
 # Define
-proc isLetter(ch: byte): bool
 proc isDigit(ch: byte): bool
+proc isLetter(ch: byte): bool
 proc isSpace(ch: char): bool
 proc newLexer*(input: string): Lexer
 proc newToken(tokenType: TokenType, ch: byte): Token
@@ -30,10 +30,17 @@ proc readNumber(lex: Lexer): string
 proc skipWhiteSpace(lex: Lexer): void {.inline.}
 
 # Implement
+proc isSpace(ch: char): bool =
+    return ch == ' ' or ch == '\t' or
+           ch == '\n' or ch == '\r'
+
 proc isLetter(ch: byte): bool =
     return('a'.byte <= ch and ch <= 'z'.byte) or
           ('A'.byte <= ch and ch <= 'Z'.byte) or
           ('_'.byte == ch)
+
+proc isDigit(ch: byte): bool =
+    return if '0' <= ch.char and ch.char <= '9': true else: false
 
 proc newLexer*(input: string): Lexer =
     new result
@@ -102,13 +109,6 @@ proc readNumber(lex: Lexer): string =
     while lex.ch.isDigit(): 
         result = result & lex.ch.char
         lex.readChar()
-
-proc isDigit(ch: byte): bool =
-    return if '0' <= ch.char and ch.char <= '9': true else: false
-
-proc isSpace(ch: char): bool =
-    return ch == ' ' or ch == '\t' or
-           ch == '\n' or ch == '\r'
 
 proc skipWhiteSpace(lex: Lexer): void {.inline.} =
     while lex.ch.char.isSpace(): lex.readChar()
