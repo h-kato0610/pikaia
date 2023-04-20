@@ -105,10 +105,12 @@ proc readIdentifier(lex: Lexer): string =
     return lex.input[position..(lex.position - 1)]
 
 proc readNumber(lex: Lexer): string =
-    var result: string
+    var resultString: string
     while lex.ch.isDigit(): 
-        result = result & lex.ch.char
+        resultString = resultString & lex.ch.char
         lex.readChar()
+
+    return resultString
 
 proc skipWhiteSpace(lex: Lexer): void {.inline.} =
     while lex.ch.char.isSpace(): lex.readChar()
