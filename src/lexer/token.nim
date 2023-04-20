@@ -1,3 +1,5 @@
+import tables
+
 type TokenType* = string
 
 type Token* = ref object
@@ -28,3 +30,15 @@ const
     # キーワード
     FUNCTION* = "FUNCTION"
     LET* = "LET"
+
+var keywords = {
+    "fn": FUNCTION,
+    "let": LET,
+}.newTable
+
+# define
+proc lookUpIdent*(ident: string): TokenType
+
+# implement
+proc lookUpIdent*(ident: string): TokenType = 
+    return if keywords.hasKey(ident): keywords[ident] else: IDENT

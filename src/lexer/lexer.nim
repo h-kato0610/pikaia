@@ -8,7 +8,6 @@ const
     BYTE_RPAREN = ')'.byte
     BYTE_COMMA = ','.byte
     BYTE_PLUS = '+'.byte
-    BYTE_MINUS = '-'.byte
     BYTE_LBRACE = '{'.byte
     BYTE_RBRACE = '}'.byte
 
@@ -19,12 +18,21 @@ type Lexer* = ref object
     ch*: byte # 現在検査中の文字
 
 # Define
+proc isLetter(ch: byte): bool
 proc newLexer*(input: string): Lexer
 proc newToken(tokenType: TokenType, ch: byte): Token
 proc nextToken(lex: Lexer): Token
 proc readChar(lex: Lexer)
+proc readIdentifier(lex: Lexer): string
+proc skipWhiteSpace(lex: Lexer): void {.inline}
+proc isSpace(ch: char): bool
 
 # Implement
+proc isLetter(ch: byte): bool =
+    return('a'.byte <= ch and ch <= 'z'.byte) or
+          ('A'.byte <= ch and ch <= 'Z'.byte) or
+          ('_'.byte == ch)
+
 proc newLexer*(input: string): Lexer =
     new result
 
@@ -37,6 +45,8 @@ proc newToken(tokenType: TokenType, ch: byte): Token =
 
 proc nextToken(lex: Lexer): Token =
     var getReadToken: Token
+
+    lex.skipWhiteSpace()
 
     case lex.ch
         of BYTE_ASSIGN:
@@ -59,8 +69,12 @@ proc nextToken(lex: Lexer): Token =
             getReadToken.Literal = ""
             getReadToken.Type = token.EOF
         else:
-            # implemented yet
-            discard
+            if lex.ch.isLetter():
+                getReadToken.Literal = lex.readIdentifier()
+                getReadToken.Type = getReadToken.Literal.lookUpIdent()
+                return getReadToken
+            else:
+                getReadToken = newToken(token.ILLEGA, lex.ch)
 
     lex.readChar()
     return getReadToken
@@ -70,3 +84,17 @@ proc readChar(lex: Lexer) =
              else: lex.input[lex.readPosition].byte
     
     lex.position = lex.readPosition
+
+proc readIdentifier(lex: Lexer): string =
+    let position = lex.position
+    while isLetter(lex.ch):
+        lex.readChar()
+
+    return lex.input[position..(lex.position - 1)]
+
+proc isSpace(ch: char): bool =
+    return ch == ' ' or ch == '\t' or
+           ch == '\n' or ch == '\r'
+
+proc skipWhiteSpace(lex: Lexer): void {.inline} =
+    while lex.ch.char.isSpace(): lex.readChar()
