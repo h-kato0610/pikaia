@@ -5,24 +5,53 @@ import ../src/lexer/token
 
 suite "TokenTest":
     test "testNextToken":
-        let input = "=+(){},;"
+        let input = """
+            let five = 5;
+            let ten = 10;
 
-        const tests = @[
-            (token.ASSIGN, "="),
-            (token.PLUS, "+"),
-            (token.LPAREN, "("),
-            (token.RPAREN, ")"),
-            (token.LBRACE, "{"),
-            (token.RBRACE, "}"),
-            (token.COMMA, ","),
-            (token.SEMICOLON, ";"),
-            (token.EOF, ""),
+            let add = fn(x, y) {
+                x + y;     
+            };
+
+            let result = add(five, ten);
+        """
+
+        let tests = @[
+            (LET, "let"),
+            (IDENT, "five"),
+            (ASSIGN, "="),
+            (INT, "5"),
+            (SEMICOLON, ";"),
+            (LET, "let"),
+            (IDENT, "ten"),
+            (ASSIGN, "="),
+            (INT, "10"),
+            (SEMICOLON, ";"),
+            (LET, "let"),
+            (IDENT, "add"),
+            (ASSIGN, "="),
+            (FUNCTION, "fn"),
+            (LPAREN, "("),
+            (IDENT, "x"),
+            (COMMA, ","),
+            (IDENT, "y"),
+            (RPAREN, ")"),
+            (LBRACE, "{"),
+            (IDENT, "x"),
+            (PLUS, "+"),
+            (IDENT, "y"),
+            (SEMICOLON, ";"),
+            (RBRACE, "}"),
+            (SEMICOLON, ";"),
+            (LET, "let"),
+            (IDENT, "result"),
+            (ASSIGN, "="),
+            (IDENT, "add"),
+            (LPAREN, "("),
+            (IDENT, "five"),
+            (COMMA, ","),
+            (IDENT, "ten"),
+            (RPAREN, ")"),
+            (SEMICOLON, ";"),
+            (EOF, ""),
         ]
-
-        var tokenizer = lexer.newLexer(input)
-
-        for test in tests:
-            let currentToken = tokenizer.getNextToken()
-
-            check(test[0] == currentToken.Type)
-            check(test[1] == currentToken.Litera)

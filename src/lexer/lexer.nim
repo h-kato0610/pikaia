@@ -2,7 +2,7 @@ import token
 from strformat import fmt
 
 const
-    BYTE_EQUAL = '='.byte
+    BYTE_ASSIGN = '='.byte
     BYTE_SEMICOLON = ';'.byte
     BYTE_LPAREN = '('.byte
     BYTE_RPAREN = ')'.byte
@@ -39,11 +39,31 @@ proc nextToken(lex: Lexer): Token =
     var getReadToken: Token
 
     case lex.ch
-        of BYTE_SEMICOLON:
+        of BYTE_ASSIGN:
             getReadToken = newToken(token.ASSIGN, lex.ch)
+        of BYTE_SEMICOLON:
+            getReadToken = newToken(token.SEMICOLON, lex.ch)
+        of BYTE_LPAREN:
+            getReadToken = newToken(token.LPAREN, lex.ch)
+        of BYTE_RPAREN:
+            getReadToken = newToken(token.RPAREN, lex.ch)
+        of BYTE_COMMA:
+            getReadToken = newToken(token.COMMA, lex.ch)
+        of BYTE_PLUS:
+            getReadToken = newToken(token.PLUS, lex.ch)
+        of BYTE_LBRACE:
+            getReadToken = newToken(token.LBRACE, lex.ch)
+        of BYTE_RBRACE:
+            getReadToken = newToken(token.RBRACE, lex.ch)
+        of 0:
+            getReadToken.Literal = ""
+            getReadToken.Type = token.EOF
         else:
             # implemented yet
             discard
+
+    lex.readChar()
+    return getReadToken
 
 proc readChar(lex: Lexer) =
     lex.ch = if lex.readPosition >= lex.input.len(): 0.byte
