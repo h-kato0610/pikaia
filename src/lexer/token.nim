@@ -7,7 +7,7 @@ type Token* = ref object
     Literal*: string
 
 const
-    ILLEGA* = "ILLEGAL"
+    ILLEGAL* = "ILLEGAL"
     EOF* = "EOF"
 
     # 識別子 + リテラル
