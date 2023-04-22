@@ -86,9 +86,10 @@ proc nextToken*(lex: Lexer): Token =
                 getReadToken.Literal =  lex.readNumber()
                 getReadToken.Type = token.INT
             else:
-                getReadToken = newToken(token.ILLEGA, lex.ch)
+                getReadToken = newToken(token.ILLEGAL, lex.ch)
 
     lex.readChar()
+
     return getReadToken
 
 proc readChar(lex: Lexer) =
@@ -96,6 +97,7 @@ proc readChar(lex: Lexer) =
              else: lex.input[lex.readPosition].byte
     
     lex.position = lex.readPosition
+    lex.readPosition += 1
 
 proc readIdentifier(lex: Lexer): string =
     let position = lex.position
@@ -113,4 +115,5 @@ proc readNumber(lex: Lexer): string =
     return resultString
 
 proc skipWhiteSpace(lex: Lexer): void {.inline.} =
-    while lex.ch.char.isSpace(): lex.readChar()
+    while lex.ch.char.isSpace():
+        lex.readChar()
