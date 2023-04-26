@@ -8,6 +8,12 @@ suite "TokenTest":
         const input = """
             let five = 5;
             let ten = 10;
+
+            let add = fn(x, y) = {
+                x + y;
+            };
+
+            let result = add(five, ten);
         """
         const tests = @[
             (LET, "let"),
@@ -20,20 +26,40 @@ suite "TokenTest":
             (ASSIGN, "="),
             (INT, "10"),
             (SEMICOLON, ";"),
+
+            (LET, "let"),
+            (IDENT, "add"),
+            (ASSIGN, "="),
+            (FUNCTION, "fn"),
+            (LPAREN, "("),
+            (IDENT, "x"),
+            (COMMA, ","),
+            (IDENT, "y"),
+            (RPAREN, ")"),
+            (ASSIGN, "="),
+            (LBRACE, "{"),
+            (IDENT, "x"),
+            (PLUS, "+"),
+            (IDENT, "y"),
+            (SEMICOLON, ";"),
+            (RBRACE, "}"),
+            (SEMICOLON, ";"),
+
+            (LET, "let"),
+            (IDENT, "result"),
+            (ASSIGN, "="),
+            (IDENT, "add"),
+            (LPAREN, "("),
+            (IDENT, "five"),
+            (COMMA, ","),
+            (IDENT, "ten"),
+            (RPAREN, ")"),
+            (SEMICOLON, ";"),
         ]
         let lexer = newLexer(input)
 
         for i, test in tests:
             var currentToken = lexer.nextToken()
-
-            echo("+++++++++")
-            echo(test[0])
-            echo(currentToken.Type)
-            echo("-----------")
-            echo(test[1])
-            echo(currentToken.Literal)
-            echo("+++++++++")
-            echo("test end")
 
             check(test[0] == currentToken.Type) 
             check(test[1] == currentToken.Literal) 
