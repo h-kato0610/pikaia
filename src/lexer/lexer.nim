@@ -35,12 +35,12 @@ proc isSpace(ch: char): bool =
            ch == '\n' or ch == '\r'
 
 proc isLetter(ch: byte): bool =
-    return('a'.byte <= ch and ch <= 'z'.byte) or
-          ('A'.byte <= ch and ch <= 'Z'.byte) or
-          ('_'.byte == ch)
+    return ('a'.byte <= ch and ch <= 'z'.byte) or
+           ('A'.byte <= ch and ch <= 'Z'.byte) or
+           ('_'.byte == ch)
 
 proc isDigit(ch: byte): bool =
-    return if '0' <= ch.char and ch.char <= '9': true else: false
+    return if '0'.byte <= ch and ch <= '9'.byte: true else: false
 
 proc newLexer*(input: string): Lexer =
     new result
@@ -74,17 +74,13 @@ proc nextToken*(lex: Lexer): Token =
             getReadToken = newToken(token.LBRACE, lex.ch)
         of BYTE_RBRACE:
             getReadToken = newToken(token.RBRACE, lex.ch)
-        of 0:
-            getReadToken.Literal = ""
-            getReadToken.Type = token.EOF
         else:
             if lex.ch.isLetter():
-                getReadToken.Literal = lex.readIdentifier()
-                getReadToken.Type = getReadToken.Literal.lookUpIdent()
-                return getReadToken
+                let identIdentifier = lex.readIdentifier()
+                return newMultiLiteralToken(token.lookUpIdent(identIdentifier),
+                                                                      identIdentifier)
             elif lex.ch.isDigit():
-                getReadToken.Literal =  lex.readNumber()
-                getReadToken.Type = token.INT
+                return newMultiLiteralToken(token.INT, lex.readNumber)
             else:
                 getReadToken = newToken(token.ILLEGAL, lex.ch)
 

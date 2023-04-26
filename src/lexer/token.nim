@@ -38,7 +38,11 @@ var keywords = {
 
 # define
 proc lookUpIdent*(ident: string): TokenType
+proc newMultiLiteralToken*(tokenType: TokenType, tokenLiteral: string): Token
 
 # implement
 proc lookUpIdent*(ident: string): TokenType = 
     return if keywords.hasKey(ident): keywords[ident] else: IDENT
+
+proc newMultiliteralToken*(tokenType: TokenType, tokenLiteral: string): Token =
+    return Token(Type: tokenType, Literal: tokenLiteral)

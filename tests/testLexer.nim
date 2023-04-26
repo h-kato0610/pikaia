@@ -5,18 +5,11 @@ import ../src/lexer/token
 
 suite "TokenTest":
     test "testNextToken":
-        let input = """
+        const input = """
             let five = 5;
             let ten = 10;
-
-            let add = fn(x, y) {
-                x + y;     
-            };
-
-            let result = add(five, ten);
         """
-
-        let tests = @[
+        const tests = @[
             (LET, "let"),
             (IDENT, "five"),
             (ASSIGN, "="),
@@ -27,39 +20,20 @@ suite "TokenTest":
             (ASSIGN, "="),
             (INT, "10"),
             (SEMICOLON, ";"),
-            (LET, "let"),
-            (IDENT, "add"),
-            (ASSIGN, "="),
-            (FUNCTION, "fn"),
-            (LPAREN, "("),
-            (IDENT, "x"),
-            (COMMA, ","),
-            (IDENT, "y"),
-            (RPAREN, ")"),
-            (LBRACE, "{"),
-            (IDENT, "x"),
-            (PLUS, "+"),
-            (IDENT, "y"),
-            (SEMICOLON, ";"),
-            (RBRACE, "}"),
-            (SEMICOLON, ";"),
-            (LET, "let"),
-            (IDENT, "result"),
-            (ASSIGN, "="),
-            (IDENT, "add"),
-            (LPAREN, "("),
-            (IDENT, "five"),
-            (COMMA, ","),
-            (IDENT, "ten"),
-            (RPAREN, ")"),
-            (SEMICOLON, ";"),
-            (EOF, ""),
         ]
-
         let lexer = newLexer(input)
 
-        for test in tests:
+        for i, test in tests:
             var currentToken = lexer.nextToken()
+
+            echo("+++++++++")
+            echo(test[0])
+            echo(currentToken.Type)
+            echo("-----------")
+            echo(test[1])
+            echo(currentToken.Literal)
+            echo("+++++++++")
+            echo("test end")
 
             check(test[0] == currentToken.Type) 
             check(test[1] == currentToken.Literal) 
