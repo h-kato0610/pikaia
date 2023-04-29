@@ -14,6 +14,8 @@ suite "TokenTest":
             };
 
             let result = add(five, ten);
+            !-/*5;
+            5 < 10 > 5;
         """
         const tests = @[
             (LET, "let"),
@@ -54,6 +56,20 @@ suite "TokenTest":
             (COMMA, ","),
             (IDENT, "ten"),
             (RPAREN, ")"),
+            (SEMICOLON, ";"),
+
+            (BANG, "!"),
+            (MINUS, "-"),
+            (ASTERISK, "*"),
+            (SLASH, "/"),
+            (IDENT, "five"),
+            (SEMICOLON, ";"),
+
+            (IDENT, "five"),
+            (LT, "<"),
+            (IDENT, "ten"),
+            (GT, ">"),
+            (IDENT, "five"),
             (SEMICOLON, ";"),
         ]
         let lexer = newLexer(input)

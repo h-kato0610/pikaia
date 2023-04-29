@@ -17,6 +17,14 @@ const
     # 演算子
     ASSIGN* = "="
     PLUS* = "+"
+    MINUS* = "-"
+    ASTERISK* = "*"
+    SLASH* = "/"
+
+    BANG* = "!"
+
+    LT* = "<"
+    GT* = ">"
 
     # デリミタ
     COMMA* = ","
