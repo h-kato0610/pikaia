@@ -38,10 +38,20 @@ const
     # キーワード
     FUNCTION* = "FUNCTION"
     LET* = "LET"
+    TRUE* = "TRUE"
+    FALSE* = "FALSE"
+    IF* = "IF"
+    ELSE* = "ELSE"
+    RETURN* = "RETURN"
 
 var keywords = {
     "fn": FUNCTION,
     "let": LET,
+    "true": TRUE,
+    "false": FALSE,
+    "if": IF,
+    "else": ELSE,
+    "return": RETURN,
 }.newTable
 
 # define
