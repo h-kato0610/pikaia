@@ -8,6 +8,12 @@ const
     BYTE_RPAREN = ')'.byte
     BYTE_COMMA = ','.byte
     BYTE_PLUS = '+'.byte
+    BYTE_MINUS = '-'.byte
+    BYTE_ASTERISK = '*'.byte
+    BYTE_SLASH = '/'.byte
+    BYTE_BANG = '!'.byte
+    BYTE_LT = '<'.byte
+    BYTE_GT = '>'.byte
     BYTE_LBRACE = '{'.byte
     BYTE_RBRACE = '}'.byte
 
@@ -70,6 +76,18 @@ proc nextToken*(lex: Lexer): Token =
             getReadToken = newToken(token.COMMA, lex.ch)
         of BYTE_PLUS:
             getReadToken = newToken(token.PLUS, lex.ch)
+        of BYTE_MINUS:
+            getReadToken = newToken(token.MINUS, lex.ch)
+        of BYTE_ASTERISK:
+            getReadToken = newToken(token.ASTERISK, lex.ch)
+        of BYTE_SLASH:
+            getReadToken = newToken(token.SLASH, lex.ch)
+        of BYTE_BANG:
+            getReadToken = newToken(token.BANG, lex.ch)
+        of BYTE_LT:
+            getReadToken = newToken(token.LT, lex.ch)
+        of BYTE_GT:
+            getReadToken = newToken(token.GT, lex.ch)
         of BYTE_LBRACE:
             getReadToken = newToken(token.LBRACE, lex.ch)
         of BYTE_RBRACE:
