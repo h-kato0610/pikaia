@@ -30,7 +30,7 @@ proc isSpace(ch: char): bool
 proc newLexer*(input: string): Lexer
 proc newToken(tokenType: TokenType, ch: byte): Token
 proc nextToken*(lex: Lexer): Token
-proc peekChar(lex: Lexer): byte
+proc peekChar(lex: Lexer): byte {.inline.}
 proc readChar(lex: Lexer)
 proc readIdentifier(lex: Lexer): string
 proc readNumber(lex: Lexer): string
@@ -66,7 +66,13 @@ proc nextToken*(lex: Lexer): Token =
 
     case lex.ch
         of BYTE_ASSIGN:
-            getReadToken = newToken(token.ASSIGN, lex.ch)
+            if lex.peekChar() == BYTE_ASSIGN:
+                let ch = lex.ch.char
+                lex.readChar()
+                let eqLiteral: string = ch.char & lex.ch.char
+                getReadToken = newMultiLiteralToken(token.EQ, eqLiteral)
+            else:
+                getReadToken = newToken(token.ASSIGN, lex.ch)
         of BYTE_SEMICOLON:
             getReadToken = newToken(token.SEMICOLON, lex.ch)
         of BYTE_LPAREN:
@@ -84,7 +90,13 @@ proc nextToken*(lex: Lexer): Token =
         of BYTE_SLASH:
             getReadToken = newToken(token.SLASH, lex.ch)
         of BYTE_BANG:
-            getReadToken = newToken(token.BANG, lex.ch)
+            if lex.peekChar() == BYTE_ASSIGN:
+                let ch = lex.ch
+                lex.readChar()
+                let not_eqLiteral: string = ch.char & lex.ch.char
+                getReadToken = newMultiLiteralToken(token.NOT_EQ, not_eqLiteral)
+            else:
+                getReadToken = newToken(token.BANG, lex.ch)
         of BYTE_LT:
             getReadToken = newToken(token.LT, lex.ch)
         of BYTE_GT:
@@ -107,8 +119,8 @@ proc nextToken*(lex: Lexer): Token =
 
     return getReadToken
 
-proc peekChar(lex: Lexer): byte =
-    return if lex.readPosition >= lex.input.len(): 0.byte 
+proc peekChar(lex: Lexer): byte {.inline.} =
+    return if lex.readPosition >= lex.input.len(): 0.byte
            else: lex.input[lex.readPosition].byte
 
 proc readChar(lex: Lexer) =

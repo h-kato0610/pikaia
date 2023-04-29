@@ -108,6 +108,7 @@ suite "TokenTest":
             (INT, "9"),
             (SEMICOLON, ";"),
         ]
+
         let lexer = newLexer(input)
 
         for i, test in tests:
