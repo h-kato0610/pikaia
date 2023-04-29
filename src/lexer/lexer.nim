@@ -30,6 +30,7 @@ proc isSpace(ch: char): bool
 proc newLexer*(input: string): Lexer
 proc newToken(tokenType: TokenType, ch: byte): Token
 proc nextToken*(lex: Lexer): Token
+proc peekChar(lex: Lexer): byte
 proc readChar(lex: Lexer)
 proc readIdentifier(lex: Lexer): string
 proc readNumber(lex: Lexer): string
@@ -105,6 +106,10 @@ proc nextToken*(lex: Lexer): Token =
     lex.readChar()
 
     return getReadToken
+
+proc peekChar(lex: Lexer): byte =
+    return if lex.readPosition >= lex.input.len(): 0.byte 
+           else: lex.input[lex.readPosition].byte
 
 proc readChar(lex: Lexer) =
     lex.ch = if lex.readPosition >= lex.input.len(): 0.byte
