@@ -44,6 +44,9 @@ const
     ELSE* = "ELSE"
     RETURN* = "RETURN"
 
+    EQ* = "=="
+    NOT_EQ* = "!="
+
 var keywords = {
     "fn": FUNCTION,
     "let": LET,
