@@ -60,8 +60,8 @@ suite "TokenTest":
 
             (BANG, "!"),
             (MINUS, "-"),
-            (ASTERISK, "*"),
             (SLASH, "/"),
+            (ASTERISK, "*"),
             (IDENT, "five"),
             (SEMICOLON, ";"),
 
