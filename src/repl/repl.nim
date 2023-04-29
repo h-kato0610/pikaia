@@ -4,10 +4,11 @@ import
 
     strformat
 
-
 const PROMPT = ">> "
 
-proc start*() =
+proc start*(): void
+
+proc start*(): void =
     while true:
         stdout.write PROMPT
 
@@ -17,7 +18,5 @@ proc start*() =
         
         var token = lex.nextToken()
         while token.Type != EOF:
-            # echo(fmt"{$lex.ch.byte.char}")
-            # echo(fmt"${token.Literal.ch.byte.char}")
-            echo(fmt"{$token.Literal}")
+            echo(fmt"Type: [{$token.Type}] Literal: [{$token.Literal}]")
             token = lex.nextToken()
