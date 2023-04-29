@@ -16,6 +16,7 @@ const
     BYTE_GT = '>'.byte
     BYTE_LBRACE = '{'.byte
     BYTE_RBRACE = '}'.byte
+    BYTE_NONE = 0.byte
 
 type Lexer* = ref object
     input*: string
@@ -105,6 +106,8 @@ proc nextToken*(lex: Lexer): Token =
             getReadToken = newToken(token.LBRACE, lex.ch)
         of BYTE_RBRACE:
             getReadToken = newToken(token.RBRACE, lex.ch)
+        of BYTE_NONE:
+            getReadToken = newMultiLiteralToken(token.EOF, "")
         else:
             if lex.ch.isLetter():
                 let identIdentifier = lex.readIdentifier()
