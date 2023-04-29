@@ -62,14 +62,14 @@ suite "TokenTest":
             (MINUS, "-"),
             (SLASH, "/"),
             (ASTERISK, "*"),
-            (IDENT, "five"),
+            (INT, "5"),
             (SEMICOLON, ";"),
 
-            (IDENT, "five"),
+            (INT, "5"),
             (LT, "<"),
-            (IDENT, "ten"),
+            (INT, "10"),
             (GT, ">"),
-            (IDENT, "five"),
+            (INT, "5"),
             (SEMICOLON, ";"),
         ]
         let lexer = newLexer(input)
