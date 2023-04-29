@@ -77,6 +77,24 @@ suite "TokenTest":
             (GT, ">"),
             (INT, "5"),
             (SEMICOLON, ";"),
+
+            (IF, "if" ),
+            (LPAREN, "("),
+            (INT, "5" ),
+            (LT, "<" ),
+            (INT, "10" ),
+            (RPAREN, ")"),
+            (LBRACE, "{"),
+            (RETURN, "return"),
+            (TRUE, "true"),
+            (SEMICOLON, ";"),
+            (RBRACE, "}"),
+            (ELSE, "else"),
+            (LBRACE, "{"),
+            (RETURN, "return"),
+            (FALSE, "false"),
+            (SEMICOLON, ";"),
+            (RBRACE, "}"),
         ]
         let lexer = newLexer(input)
 
