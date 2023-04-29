@@ -22,6 +22,9 @@ suite "TokenTest":
             } else {
                 return false;
             }
+
+            10 == 10;
+            10 != 9;
         """
         const tests = @[
             (LET, "let"),
@@ -95,6 +98,15 @@ suite "TokenTest":
             (FALSE, "false"),
             (SEMICOLON, ";"),
             (RBRACE, "}"),
+
+            (INT, "10"),
+            (EQ, "=="),
+            (INT, "10"),
+            (SEMICOLON, ";"),
+            (INT, "10"),
+            (NOT_EQ, "!="),
+            (INT, "9"),
+            (SEMICOLON, ";"),
         ]
         let lexer = newLexer(input)
 
